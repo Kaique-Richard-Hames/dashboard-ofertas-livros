@@ -39,23 +39,24 @@ def contar_cinco_estrelas(livros):
             total += 1
     return total
 
-def preco_item_mais_caro(livros):
-    mais_caro: float = 0
-    for livro in livros:
-        str_limpa: str = livro["preco"].replace("£","")
-        num_limpo: float = float(str_limpa)
-        if num_limpo > mais_caro:
-            mais_caro = num_limpo
-    return mais_caro
-
 def item_mais_caro(livros):
-    mais_caro: float = 0
-    titulo: str
+    livroo = livros[0]
+    mais_caro = float(livroo["preco"].replace("£",""))
     for livro in livros:
         str_limpa: str = livro["preco"].replace("£","")
         num_limpo: float = float(str_limpa)
         if num_limpo > mais_caro:
-            titulo = livro["titulo"]
+            livroo = livro
+    return livroo
+
+
+def preco_item_mais_caro(livros):
+    mais_caro = item_mais_caro(livros)
+    return mais_caro["preco"]
+
+def titulo_item_mais_caro(livros):
+    mais_caro = item_mais_caro(livros)
+    titulo = mais_caro["titulo"]
     return titulo
 
 if __name__ == "__main__":
@@ -63,3 +64,5 @@ if __name__ == "__main__":
     # print(f"Quantidade de livros é de: {len(livros)} livros.")
     # print(f"Preço médio dos livros: {round(calcular_preco_medio(livros), 2)} libras.")
     # print(f"Quantidade de livros com 5 estrelas: {contar_cinco_estrelas(livros)}")
+    #print(f"Titulo item mais caro: {titulo_item_mais_caro(livros)}")
+    #print(f"Preço item mais caro: {preco_item_mais_caro(livros)}")

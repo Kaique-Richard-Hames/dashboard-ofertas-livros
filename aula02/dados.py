@@ -28,6 +28,22 @@ def ler_livros():
 
     return livros
 
+def converter_preco(preco):
+    return float(preco.replace("£",""))
+
+def converter_nota(nota):
+    if nota == "Five":
+        return 5
+    elif nota == "Four":
+        return 4
+    elif nota == "Three":
+        return 3
+    elif nota == "Two":
+        return 2
+    elif nota == "One":
+        return 1
+    elif nota == "Zero":
+        return 0
 
 def calcular_preco_medio(livros):
     """Soma os preços de todos os livros e divide pelo total.
@@ -36,10 +52,7 @@ def calcular_preco_medio(livros):
     """
     soma: float = 0
     for livro in livros:
-        preco_original: str = livro["preco"]
-        preco_original_limpo: str = preco_original.replace("£", "")
-        preco_num: float = float(preco_original_limpo)
-        soma += preco_num
+        soma += livro["preco"]
 
     preco_medio: float = soma / len(livros)
     return preco_medio
@@ -49,8 +62,7 @@ def contar_cinco_estrelas(livros):
     """Conta quantos livros têm a nota máxima. A nota vem como texto ("Five")."""
     contador: int = 0
     for livro in livros:
-        nota_limpa: str = livro["nota"].lower().strip()
-        if nota_limpa == "five":
+        if livro["nota"] == 5:
             contador += 1
 
     return contador
@@ -60,14 +72,29 @@ def encontrar_mais_caro(livros):
     """Devolve o livro de maior preço. O preço vem como texto ("£51.77")."""
     mais_caro = livros[0]
     for livro in livros:
-        preco = float(livro["preco"].replace("£", ""))
-        preco_mais_caro = float(mais_caro["preco"].replace("£", ""))
-        if preco > preco_mais_caro:
+        if livro["preco"] > mais_caro["preco"]:
             mais_caro = livro
     return mais_caro
 
+def preparar_livros(linhas):
+    livros = []
+    for linha in linhas:
+        livro = {
+            "titulo": linha["titulo"],
+            "preco": converter_preco(linha["preco"]),
+            "categoria": linha["categoria"],
+            "nota": converter_nota(linha["nota"]),
+            "url": linha["url"]
+        }
+        livros.append(livro)
+    return livros
+
+
+def carregar_livros():
+    return preparar_livros(ler_livros())
+
 
 if __name__ == "__main__":
-    livros = ler_livros()
+    livros = carregar_livros()
     print(f"{len(livros)} livros carregados")
     print("Primeiro livro:", livros[0])
