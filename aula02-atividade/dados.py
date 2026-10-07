@@ -93,8 +93,18 @@ def carregar_livros():
     """Lê o CSV e já devolve os livros prontos para usar."""
     return preparar_livros(ler_livros())
 
+def buscar_por_titulo(livros, palavra):
+    """Devolve os livros cujo título contém a palavra."""
+    encontrados = []
+    for livro in livros:
+        if palavra.lower() in livro["titulo"].lower():
+            encontrados.append(livro)
+    return encontrados
+
 
 if __name__ == "__main__":
     livros = ler_livros()
-    print(f"{len(livros)} livros carregados")
-    print("Primeiro livro:", livros[0])
+    #print(f"{len(livros)} livros carregados")
+    #print("Primeiro livro:", livros[0])
+    #encontrados = buscar_por_titulo(livros, "The")
+    #print(f"{len(encontrados)} livros encontrados com 'sharp' no título, {encontrados}")
